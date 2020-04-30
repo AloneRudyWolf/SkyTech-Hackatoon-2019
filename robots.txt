@@ -1,0 +1,24 @@
+User-agent: *
+
+Disallow: /lang
+Disallow: /users
+Disallow: /lib
+Disallow: /system
+Disallow: /message
+Disallow: /projects
+Disallow: /employers
+Disallow: /*?city=
+
+Allow: /users/
+Clean-param: rtarif
+Clean-param: rperiod
+Clean-param: f
+Clean-param: s
+Clean-param: w
+Clean-param: d
+Clean-param: ajax
+Clean-param: tab
+
+
+Sitemap: https://pilothub.ru/sitemap.xml
+Host: https://pilothub.ru

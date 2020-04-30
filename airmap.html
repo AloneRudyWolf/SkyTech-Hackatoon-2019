@@ -1,0 +1,329 @@
+<html>
+<head>
+    <title>Карта воздушного пространства РФ</title>
+    
+    <link rel="canonical" href="airmap.html"/>
+
+    
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	
+    
+
+
+    <base href="" />
+    <link href="themes/pilothub/css/jquery-ui.css@20072019.css" type="text/css" rel="stylesheet" />
+<link href="themes/pilothub/css/main.css@14082019.css" type="text/css" rel="stylesheet" />
+<link href="themes/pilothub/css/competitionbanner.css@20072019.css" type="text/css" rel="stylesheet" />
+<link href="themes/pilothub/css/default.css@20072019.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jqModal.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/ajax_on.js"></script>
+<script type="text/javascript" src="https://cdn.airmap.io/js/maps/v2.2/airmap.map.min.js"></script>
+
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5WQF54K');</script>
+<!-- End Google Tag Manager -->
+    
+</head>
+<body class="page">
+<div class="wrapper">
+    <div class="tp">
+    
+    <div class="cntnr"><style>
+    #airmap #airmapnav_mini { display: none; }
+
+    #airmap .airmapnav { width: 320px; box-shadow: 2px 3px 7px 0px rgba(0, 84, 170, .102); }
+
+   
+#airmap .mapboxgl-ctrl-bottom-right {
+    right: 10;
+    bottom: 70;
+}
+
+    #airmap_filter img { float: right; position: absolute; z-index: 10; right: 15px; cursor: pointer; }
+
+    @media (max-width: 800px) {
+        #airmap .airmapnav { width: inherit; }
+    }
+
+</style>
+<div id="airmap" style="position:fixed; top: 0px; bottom: 0; left: 0; right: 0;">
+    
+    <div class="content">
+        <div id="airspaceMap" style="height: 100%; position:relative;"></div>
+        <div class="airmapnav m_hide m_col_12" style="position: absolute; overflow: auto; top: 60px; z-index: 1000; background-color: #fff; padding: 20px; height: 100%;">
+            <div class="col_12">
+                <form id="airmap_filter">
+                    <h4 class="m-b_8">Воздушное пространство аэропортов
+                    </h4>
+                    <div id="hint_10" class="hide p-b_10"></div>
+                    <ul>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="airports_recreational" name="airports_recreational" checked="checked">
+                            <label for="airports_recreational">Возможность полетов ограничена</label>
+                            <div id="hint_11" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="airports_commercial" name="airports_commercial" checked="checked">
+                            <label for="airports_commercial">Нет возможности полетов</label>
+                            <div id="hint_12" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="airports_recreational_private" name="airports_recreational_private" checked="checked">
+                            <label for="airports_recreational_private">Некоммерческие съемки (Частные аэропорты)</label>
+                            <div id="hint_13" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="airports_commercial_private" name="airports_commercial_private" checked="checked">
+                            <label for="airports_commercial_private">Коммерческие съемки (Частные аэропорты)</label>
+                            <div id="hint_14" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                    </ul>
+                    <h4 class="m-b_8 m-t_15">Контролируемое воздушное пространство
+                    </h4>
+                    <div id="hint_20" class="hide p-b_10"></div>
+                    <ul>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="class_b" name="class_b" checked="checked">
+                            <label for="class_b">Воздушное пространство класса B</label>
+                            <div id="hint_21" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="class_c" name="class_c" checked="checked">
+                            <img src="themes/pilothub/files/img/hint.png" onclick="$('#hint_22').toggleClass('hide');"/>
+                            <label for="class_c">Воздушное пространство класса C</label>
+                            <div id="hint_22" class="hide p-b_10 p-t_10 f-s_11">Все полеты выполняются при наличии разрешения на использование воздушного пространства в районном зональном центре ЕС ОрВД, за исключением случаев, предусмотренных пунктом 114  Федеральных правил использования воздушного пространства.</div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="class_d" name="class_d" checked="checked">
+                            <label for="class_d">Воздушное пространство класса D</label>
+                            <div id="hint_23" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="class_e0" name="class_e0" checked="checked">
+                            <label for="class_e0">Воздушное пространство класса E0</label>
+                            <div id="hint_24" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                    </ul>
+                    <h4 class="m-b_8 m-t_15">Особое воздушное пространство
+                    </h4>
+                    <div id="hint_30" class="hide p-b_10"></div>
+                    <ul>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="sua_prohibited" name="sua_prohibited" checked="checked">
+                            <label for="sua_prohibited">Запрещенные полетные зоны</label>
+                            <div id="hint_31" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="sua_restricted" name="sua_restricted" checked="checked">
+                            <label for="sua_restricted">Зоны повышенного внимания</label>
+                            <div id="hint_32" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="national_parks" name="national_parks" checked="checked">
+                            <label for="national_parks">Национальные парки и заповедники</label>
+                            <div id="hint_33" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="noaa" name="noaa" checked="checked">
+                            <label for="noaa">Охраняемые морские зоны</label>
+                            <div id="hint_34" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                    </ul>
+                    <h4 class="m-b_8 m-t_15">Информационные
+                    </h4>
+                    <div id="hint_40" class="hide p-b_10"></div>
+                    <ul>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="hospitals" name="hospitals" checked="checked">
+                            <label for="hospitals">Больницы</label>
+                            <div id="hint_41" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="schools" name="schools" checked="checked">
+                            <label for="schools">Школы</label>
+                            <div id="hint_42" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="heliports" name="heliports" checked="checked">
+                            <label for="heliports">Зоны оптимальные для полета</label>
+                            <div id="hint_43" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="power_plants" name="power_plants" checked="checked">
+                            <label for="power_plants">Электростанции</label>
+                            <div id="hint_44" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="cities" name="cities" checked="checked">
+                            <label for="cities">Другие городские ограничения</label>
+                            <div id="hint_45" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                    </ul>
+                    <h4 class="m-b_8 m-t_15">Временные зоны
+                    </h4>
+                    <div id="hint_50" class="hide p-b_10"></div>
+                    <ul>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="tfrs" name="tfrs" checked="checked">
+                            <label for="tfrs">Временный запрет на полеты</label>
+                            <div id="hint_51" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="wildfires" name="wildfires" checked="checked">
+                            <label for="wildfires">Лесные пожары</label>
+                            <div id="hint_52" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4">
+                            <input type="checkbox" id="fires" name="fires" checked="checked">
+                            <label for="fires">Городские пожары</label>
+                            <div id="hint_53" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                        <li class="checkbox_wrap col_12 m-b_4 hide">
+                            <input type="checkbox" id="emergencies" name="emergencies" checked="checked">
+                            <label for="emergencies">Зоны активности пилотов</label>
+                            <div id="hint_54" class="hide p-b_10 p-t_10"></div>
+                        </li>
+                    </ul>
+                </form>
+              
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('#airmap_filter').bind('click change keyup', function () {
+        $('#showmap').removeClass('hide');
+    });
+
+    $('#showmap').bind('click', function () {
+        $('#airmap .airmapnav').toggleClass('m_show');
+        $('#airmap .airmapnav').toggleClass('m_hide');
+        $(this).addClass('hide');
+    });
+
+    var lat = 55.76;
+    var lng = 37.64;
+
+    var config = {
+        "airmap": {
+            "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHx3UGdMOWc4VEVLQjlYWENMNEpMM0FpNXFnMDd5IiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxhRVpLT1J5Rnp2ek45cGlFTUtNa0dVZFl4QmUzIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfDllZGF3OTZzZ3htWWdxU3dsYm1EM3VNWVcwOVoiLCJpYXQiOjE1NTgzNzY4Nzl9._TFUXPA2D-4a_JkHEMY9NnUSPViUTlFP1s0z1115LfU"
+        },
+        "auth0": {
+            "client_id": "79ff1dfd-7d06-48db-aa39-9deac2c5ac14",
+            "callback_url": "https://pilothub.ru/airmap"
+        },
+        "mapbox": {
+            "access_token": "pk.eyJ1IjoicGhkcm9uZSIsImEiOiJjano4dWlzdXIwMXdwM2xucW5iMncybDU5In0.ddw8j7tdJKD7x_yVPLtslw"
+        }
+    };
+
+    var map = new Airmap.Map(config, {
+        container: 'airspaceMap',
+        language: "ru",
+        theme: 'standard',
+        zoom: 6,
+        center: [lat, lng],
+        layers: []
+    });
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+
+        map.move(lat, lng, 7);
+    });
+
+    map.on('load', function() {
+
+        // set layers
+
+        var layers = [
+            'class_b',
+            'class_c',
+            'class_d',
+            'class_e0',
+            'sua_prohibited',
+            'sua_restricted',
+            'national_parks',
+            'noaa',
+            'airports_recreational',
+            'airports_commercial',
+            'airports_recreational_private',
+            'airports_commercial_private',
+            'hospitals',
+            'schools',
+            'heliports',
+            'power_plants',
+            'tfrs',
+            'wildfires',
+            'fires',
+            'emergencies'
+        ];
+
+        map.setLayers(layers);
+
+        $("#airmap .airmapnav input[type='checkbox']").on("change", function(){
+            if($(this).attr('checked')){
+                map.addLayer($(this).attr('id'));
+            }else{
+                map.removeLayer($(this).attr('id'));
+            }
+        });
+
+        $("#airmapnav_mini").on("click", function(){
+            $('#airmap .airmapnav').toggleClass('m_show');
+            $('#airmap .airmapnav').toggleClass('m_hide');
+        });
+
+    })
+
+
+</script><div class="bttm hide m_hide">
+    <div class="col_12">
+        <div class="section">
+            <a href="https://pilothub.ru/" class="logo"></a>
+            <div class="m_hide"
+            </div>
+            
+        </div>
+        
+</div>
+</div>
+</div>
+
+
+
+</body>
+
+
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru" type="text/javascript"></script>
+<script type="text/javascript" src="https://yandex.st/share/share.js" charset="utf-8"></script>
+
+
+<script type="text/javascript" src="themes/pilothub/js/validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="themes/pilothub/js/jquery-ui.js"></script>
+<script type="text/javascript" src="themes/pilothub/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="themes/pilothub/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="themes/pilothub/js/jquery-scrolltofixed-min.js"></script>
+<script type="text/javascript" src="themes/pilothub/js/main.js"></script>
+
+</html>
